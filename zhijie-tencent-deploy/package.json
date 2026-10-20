@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "node server.cjs",
-    "test": "node --test tests.cjs server.test.cjs frontend.test.cjs",
+    "test": "node --test tests.cjs server.test.cjs frontend.test.cjs intel.test.cjs",
     "build:pages": "node scripts/build-pages.cjs"
   }
 }

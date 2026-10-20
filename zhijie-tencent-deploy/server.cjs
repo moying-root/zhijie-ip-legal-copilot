@@ -34,6 +34,7 @@ function createApp(options={}){
    if(req.headers.origin&&req.headers.origin!==(host===publicUrl?.host?publicUrl.origin:`http://${host}`))throw new AppError(403,'ORIGIN_FORBIDDEN','不允许跨站调用。');
    if(req.headers['sec-fetch-site']==='cross-site')throw new AppError(403,'ORIGIN_FORBIDDEN','不允许跨站调用。');
    if(url.pathname.startsWith('/api/')){
+    if(req.method==='GET'&&url.pathname==='/api/intel'){const data=JSON.parse(fs.readFileSync(path.join(__dirname,'dist/intel.json'),'utf8'));return json(res,200,{updatedAt:data.updatedAt,status:data.status,items:data.items})}
     if(req.method==='GET'&&url.pathname==='/api/health')return json(res,200,{ok:true,version:'0.2.0',aiConfigured:model.configured,model:model.model,provider:model.provider||null,sessionTtlMinutes:30,limits:{contractChars:60000},storage:'会话仅保存在服务内存，重启或闲置30分钟后失效'});
     if(req.method!=='POST'||!['/api/review','/api/chat'].includes(url.pathname))throw new AppError(404,'NOT_FOUND','接口不存在。');
     if(Date.now()-windowStart>60000){windowStart=Date.now();requests=0}if(++requests>60)throw new AppError(429,'RATE_LIMIT','请求过于频繁，请一分钟后重试。');
