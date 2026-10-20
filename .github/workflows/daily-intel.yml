@@ -1,0 +1,39 @@
+name: 每日知识产权情报
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: daily-intel
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: 采集与智谱整理
+        id: collect
+        continue-on-error: true
+        env:
+          ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
+          ZHIPU_MODEL: ${{ vars.ZHIPU_MODEL }}
+          INTEL_MAX_ARTICLES: '8'
+        run: node zhijie-tencent-deploy/scripts/update-intel.cjs
+      - name: 保存情报与采集状态
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add zhijie-tencent-deploy/dist/intel.json
+          if ! git diff --cached --quiet; then
+            git commit -m '更新官方知识产权情报与采集状态'
+            git push
+          fi
+      - name: 报告采集失败
+        if: steps.collect.outcome == 'failure'
+        run: exit 1
