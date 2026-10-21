@@ -1,0 +1,15 @@
+services:
+  zhijie:
+    build: .
+    ports:
+      - "4173:4173"
+    env_file: .env
+    environment:
+      HOST: 0.0.0.0
+      INTEL_DATA_DIR: /app/data
+      DATA_PERSISTENT: "true"
+    volumes:
+      - zhijie-data:/app/data
+    restart: unless-stopped
+volumes:
+  zhijie-data:

@@ -1,13 +1,13 @@
 {
   "name": "zhijie-ip-legal-copilot",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "node": ">=22.16.0"
   },
   "scripts": {
     "start": "node server.cjs",
-    "test": "node --test tests.cjs server.test.cjs frontend.test.cjs intel.test.cjs",
-    "build:pages": "node scripts/build-pages.cjs"
+    "test": "node --test tests.cjs server.test.cjs frontend.test.cjs intel.test.cjs intel-tasks.test.cjs system.test.cjs",
+    "check:sources": "node scripts/update-intel.cjs --check-sources"
   }
 }
