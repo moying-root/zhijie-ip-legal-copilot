@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: zhijie-ip-legal-copilot
+    runtime: node
+    plan: free
+    buildCommand: node --check server.cjs
+    startCommand: node server.cjs
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.16.0
+      - key: LLM_PROVIDER
+        value: zhipu
+      - key: ZHIPU_BASE_URL
+        value: https://open.bigmodel.cn/api/paas/v4
+      - key: ZHIPU_API_KEY
+        sync: false
+      - key: ZHIPU_MODEL
+        sync: false
+      - key: DAILY_AI_LIMIT
+        value: 100

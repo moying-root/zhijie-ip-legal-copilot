@@ -28,6 +28,7 @@ function createModel({provider='openai',apiKey='',model='',baseUrl,timeoutMs=600
   let response;
   try{response=await fetchImpl(endpoint,{method:'POST',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},signal:AbortSignal.timeout(timeoutMs),body:JSON.stringify(buildRequest(provider,model,kind,data))})}
   catch(e){if(e.name==='TimeoutError'||e.name==='AbortError')throw new AppError(504,'MODEL_TIMEOUT','模型响应超时，请重试或缩短合同。');throw new AppError(502,'MODEL_UNREACHABLE','无法连接模型服务，请检查服务端网络与接口配置。')}
+  if(response.status===401)throw new AppError(502,'MODEL_AUTH_FAILED','智谱或模型服务的密钥认证未通过（HTTP 401）。请在服务端核对 API 密钥；可先使用规则审查。法律资讯采集不依赖模型。');
   if(!response.ok)throw new AppError(response.status===429?429:502,'MODEL_UPSTREAM_ERROR',response.status===429?'模型服务请求过多，请稍后重试。':`模型接口请求失败（HTTP ${response.status}），请检查服务端密钥、模型名称及账号权限。`);
   let envelope;try{envelope=await response.json()}catch{throw new AppError(502,'INVALID_MODEL_OUTPUT','模型服务返回了无效数据。')}
   if(envelope?.error)throw new AppError(502,'MODEL_UPSTREAM_ERROR','模型服务拒绝请求，请检查账号余额、模型权限及 API 配置。');

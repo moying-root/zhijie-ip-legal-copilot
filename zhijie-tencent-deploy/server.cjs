@@ -43,13 +43,13 @@ function createApp(options={}){
      context({contract:'校验',role:'中立',scenario:'AI 大模型',rules:body.rules});const old=store.read('rules',{revision:0,rules:E.defaults});if(body.revision!==old.revision)throw new AppError(409,'RULES_CONFLICT','规则已被其他管理员更新，请先重新读取后端版本');
      return json(res,200,store.write('rules',{rules:body.rules,revision:old.revision+1,updatedAt:new Date().toISOString()}));
     }
-    if(req.method==='GET'&&url.pathname==='/api/system')return json(res,200,{version:'1.0.0',modelConfigured:model.configured,provider:model.provider,model:model.model,adminConfigured:(process.env.INTEL_ADMIN_TOKEN||'').length>=16,schedule:taskManager?taskManager.status():null,storage:store?'服务端数据目录':'未启用',persistentStorageConfirmed:process.env.DATA_PERSISTENT==='true',singleInstanceRequired:true,contractStorage:'合同和对话仅在会话内存中，不写入文件',sourceCoverage:'知识产权局政务栏目、最高人民法院公开页面；仅覆盖栏目可见链接'});
+    if(req.method==='GET'&&url.pathname==='/api/system')return json(res,200,{version:'1.1.0',modelConfigured:model.configured,provider:model.provider,model:model.model,adminConfigured:(process.env.INTEL_ADMIN_TOKEN||'').length>=16,schedule:taskManager?taskManager.status():null,storage:store?'服务端数据目录':'未启用',persistentStorageConfirmed:process.env.DATA_PERSISTENT==='true',singleInstanceRequired:true,contractStorage:'合同和对话仅在会话内存中，不写入文件',sourceCoverage:'知识产权局政务栏目、最高人民法院公开页面；仅覆盖栏目可见链接'});
     if(req.method==='POST'&&url.pathname==='/api/restore'){
      requireAdmin(req);if(!store||!options.intelDataFile)throw new AppError(503,'STORAGE_UNAVAILABLE','存储尚未启用');if(taskManager?.status().running)throw new AppError(409,'TASK_RUNNING','采集运行中，请完成后再恢复备份');
      const body=await readJSON(req);if(body.version!==1||!body.rules||!body.intel||!Array.isArray(body.intel.items)||body.intel.items.length>500)throw new AppError(400,'INVALID_BACKUP','备份格式无效');
      context({contract:'校验',role:'中立',scenario:'AI 大模型',rules:body.rules.rules});
      const official=u=>{try{const v=new URL(u);return v.protocol==='https:'&&['www.cnipa.gov.cn','ipc.court.gov.cn','www.court.gov.cn'].includes(v.hostname)&&!v.username&&!v.password&&!v.port}catch{return false}};
-     if(!body.intel.items.every(i=>i&&official(i.url)&&['法律法规','司法案例','政策动态'].includes(i.type)&&['id','title','summary','impact','agency','discoveredAt','reviewStatus'].every(k=>typeof i[k]==='string'&&i[k].length<4000)))throw new AppError(400,'INVALID_BACKUP','情报字段或来源不合法');
+     if(!body.intel.items.every(i=>i&&official(i.url)&&['法律法规','司法案例','政策动态','行业新闻'].includes(i.type)&&['id','title','summary','impact','agency','discoveredAt','reviewStatus'].every(k=>typeof i[k]==='string'&&i[k].length<4000)))throw new AppError(400,'INVALID_BACKUP','情报字段或来源不合法');
      const old=store.read('rules',{revision:0});store.write('rules',{rules:body.rules.rules,revision:old.revision+1,updatedAt:new Date().toISOString()});
      const intel={updatedAt:typeof body.intel.updatedAt==='string'?body.intel.updatedAt:null,items:body.intel.items,seen:body.intel.items.map(i=>i.url),status:[]};
      const tmp=options.intelDataFile+'.tmp';fs.writeFileSync(tmp,JSON.stringify(intel));fs.renameSync(tmp,options.intelDataFile);
@@ -67,11 +67,10 @@ function createApp(options={}){
      const secret=process.env.INTEL_ADMIN_TOKEN||'';const actual=req.headers['x-intel-admin-token']||'';
      if(!taskManager||secret.length<16)throw new AppError(503,'INTEL_NOT_CONFIGURED','管理员采集尚未配置。');
      if(typeof actual!=='string'||Buffer.byteLength(actual)!==Buffer.byteLength(secret)||!require('node:crypto').timingSafeEqual(Buffer.from(actual),Buffer.from(secret)))throw new AppError(403,'ADMIN_REQUIRED','管理员口令不正确。');
-     if(!process.env.ZHIPU_API_KEY||!process.env.ZHIPU_MODEL)throw new AppError(503,'MODEL_NOT_CONFIGURED','请在腾讯云配置智谱密钥与模型。');
      try{return json(res,202,taskManager.start('manual'))}catch(e){throw new AppError(e.status||500,'INTEL_TASK_ERROR',e.message)}
     }
     if(req.method==='GET'&&url.pathname==='/api/intel'){const data=JSON.parse(fs.readFileSync(options.intelDataFile&&fs.existsSync(options.intelDataFile)?options.intelDataFile:path.join(__dirname,'dist/intel.json'),'utf8'));return json(res,200,{updatedAt:data.updatedAt,status:data.status,items:data.items})}
-    if(req.method==='GET'&&url.pathname==='/api/health')return json(res,200,{ok:true,version:'1.0.0',aiConfigured:model.configured,model:model.model,provider:model.provider||null,sessionTtlMinutes:30,limits:{contractChars:60000},storage:'会话仅保存在服务内存，重启或闲置30分钟后失效'});
+    if(req.method==='GET'&&url.pathname==='/api/health')return json(res,200,{ok:true,version:'1.1.0',aiConfigured:model.configured,model:model.model,provider:model.provider||null,sessionTtlMinutes:30,limits:{contractChars:60000},storage:'会话仅保存在服务内存，重启或闲置30分钟后失效'});
     if(req.method!=='POST'||!['/api/review','/api/chat','/api/draft'].includes(url.pathname))throw new AppError(404,'NOT_FOUND','接口不存在。');
     if(Date.now()-windowStart>60000){windowStart=Date.now();requests=0}if(++requests>60)throw new AppError(429,'RATE_LIMIT','请求过于频繁，请一分钟后重试。');
     if(active>=4)throw new AppError(429,'BUSY','服务正在处理其他请求，请稍后重试。');active++;counted=true;
@@ -102,7 +101,7 @@ function createApp(options={}){
     }finally{session.busy=false}
    }
    if(!['GET','HEAD'].includes(req.method))throw new AppError(405,'METHOD_NOT_ALLOWED','不支持该请求方法。');
-   const assets={'/':'index.html','/index.html':'index.html','/style.css':'style.css','/app.js':'app.js','/backend.js':'backend.js','/system.js':'system.js','/engine.js':'engine.js'};
+   const assets={'/':'index.html','/admin':'index.html','/admin/':'index.html','/index.html':'index.html','/style.css':'style.css','/app.js':'app.js','/backend.js':'backend.js','/system.js':'system.js','/engine.js':'engine.js'};
    const name=assets[url.pathname];if(!name)throw new AppError(404,'NOT_FOUND','页面不存在。');
    const mime={'.html':'text/html','.css':'text/css','.js':'text/javascript'}[path.extname(name)];
    const content=await fs.promises.readFile(path.join(__dirname,'dist',name));res.writeHead(200,{'Content-Type':mime+'; charset=utf-8','Cache-Control':'no-cache'});res.end(req.method==='HEAD'?undefined:content);
