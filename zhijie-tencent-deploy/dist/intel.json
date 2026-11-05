@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T03:45:12.306Z",
+  "updatedAt": "2026-11-05T04:03:45.461Z",
   "status": [
     {
       "name": "国家知识产权局",
@@ -12,6 +12,16 @@
           "title": "一图速览2026年前8个月我国知识产权统计数据",
           "url": "https://www.cnipa.gov.cn/art/2026/9/30/art_67_208383.html",
           "message": "未能提取正文"
+        },
+        {
+          "title": "一图速览2026年前7个月我国知识产权统计数据",
+          "url": "https://www.cnipa.gov.cn/art/2026/9/18/art_67_208211.html",
+          "message": "未能提取正文"
+        },
+        {
+          "title": "一图速览2026年前5个月我国知识产权统计数据",
+          "url": "https://www.cnipa.gov.cn/art/2026/7/22/art_67_207321.html",
+          "message": "未能提取正文"
         }
       ],
       "aiWarnings": [],
@@ -23,7 +33,7 @@
       "url": "https://www.cnipa.gov.cn/col/col53/index.html",
       "ok": true,
       "found": 38,
-      "processed": 1,
+      "processed": 0,
       "errors": [],
       "aiWarnings": [],
       "fallbackUsed": false
@@ -40,6 +50,22 @@
     }
   ],
   "items": [
+    {
+      "title": "一图速览2026年前5个月我国知识产权统计数据",
+      "url": "https://www.cnipa.gov.cn/art/2026/7/22/art_67_207321.html",
+      "agency": "国家知识产权局",
+      "id": "165065df08b6d0fb",
+      "type": "行业新闻",
+      "summary": "已发现官方发布，正文暂未读取，请打开原文查看。",
+      "excerpt": "",
+      "impact": "原文摘录，不构成法律分析；请结合原文及附件核查。",
+      "publishedAt": "2026-07-22 10:36",
+      "discoveredAt": "2026-11-05T04:03:42.560Z",
+      "reviewStatus": "官方链接 · 正文待重试",
+      "summaryKind": "title_only",
+      "contentCoverage": "仅标题与链接",
+      "fetchError": "未能提取正文"
+    },
     {
       "title": "国家知识产权局印发《专利和商标审查“十五五”规划》",
       "url": "https://www.cnipa.gov.cn/art/2026/11/3/art_53_208900.html",
