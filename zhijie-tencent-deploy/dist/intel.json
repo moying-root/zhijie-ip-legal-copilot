@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T03:37:09.241Z",
+  "updatedAt": "2026-11-08T03:08:10.378Z",
   "status": [
     {
       "name": "国家知识产权局",
@@ -33,7 +33,7 @@
       "url": "https://www.cnipa.gov.cn/col/col53/index.html",
       "ok": true,
       "found": 36,
-      "processed": 2,
+      "processed": 0,
       "errors": [],
       "aiWarnings": [],
       "fallbackUsed": false
