@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-09T03:30:13.945Z",
+  "updatedAt": "2026-11-10T05:03:44.551Z",
   "status": [
     {
       "name": "国家知识产权局",
@@ -41,12 +41,12 @@
     {
       "name": "最高人民法院知识产权法庭",
       "url": "https://ipc.court.gov.cn/zh-cn/index.html",
-      "ok": false,
-      "found": 0,
+      "ok": true,
+      "found": 22,
       "processed": 0,
       "errors": [],
       "aiWarnings": [],
-      "error": "fetch failed"
+      "fallbackUsed": false
     }
   ],
   "items": [
