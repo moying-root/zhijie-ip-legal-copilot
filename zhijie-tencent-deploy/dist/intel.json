@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-14T03:55:46.640Z",
+  "updatedAt": "2026-11-15T03:39:01.059Z",
   "status": [
     {
       "name": "国家知识产权局",
@@ -17,6 +17,11 @@
           "title": "一图速览2026年前8个月我国知识产权统计数据",
           "url": "https://www.cnipa.gov.cn/art/2026/9/30/art_67_208383.html",
           "message": "未能提取正文"
+        },
+        {
+          "title": "一图速览2026年前7个月我国知识产权统计数据",
+          "url": "https://www.cnipa.gov.cn/art/2026/9/18/art_67_208211.html",
+          "message": "未能提取正文"
         }
       ],
       "aiWarnings": [],
@@ -27,7 +32,7 @@
       "name": "知识产权新闻",
       "url": "https://www.cnipa.gov.cn/col/col53/index.html",
       "ok": true,
-      "found": 37,
+      "found": 36,
       "processed": 0,
       "errors": [],
       "aiWarnings": [],
