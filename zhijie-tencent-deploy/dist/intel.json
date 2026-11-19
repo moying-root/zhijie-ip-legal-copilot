@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-18T04:59:16.479Z",
+  "updatedAt": "2026-11-19T04:54:00.768Z",
   "status": [
     {
       "name": "国家知识产权局",
@@ -16,6 +16,11 @@
         {
           "title": "一图速览2026年前三季度我国知识产权统计数据",
           "url": "https://www.cnipa.gov.cn/art/2026/11/11/art_67_209055.html",
+          "message": "未能提取正文"
+        },
+        {
+          "title": "一图速览2026年前8个月我国知识产权统计数据",
+          "url": "https://www.cnipa.gov.cn/art/2026/9/30/art_67_208383.html",
           "message": "未能提取正文"
         }
       ],
