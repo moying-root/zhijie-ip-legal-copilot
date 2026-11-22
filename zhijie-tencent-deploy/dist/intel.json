@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-21T04:40:12.413Z",
+  "updatedAt": "2026-11-22T03:54:00.111Z",
   "status": [
     {
       "name": "国家知识产权局",
@@ -12,6 +12,16 @@
           "title": "一图速览2026年前10个月我国知识产权统计数据",
           "url": "https://www.cnipa.gov.cn/art/2026/11/18/art_67_209177.html",
           "message": "未能提取正文"
+        },
+        {
+          "title": "一图速览2026年前三季度我国知识产权统计数据",
+          "url": "https://www.cnipa.gov.cn/art/2026/11/11/art_67_209055.html",
+          "message": "未能提取正文"
+        },
+        {
+          "title": "一图速览2026年前8个月我国知识产权统计数据",
+          "url": "https://www.cnipa.gov.cn/art/2026/9/30/art_67_208383.html",
+          "message": "未能提取正文"
         }
       ],
       "aiWarnings": [],
@@ -23,7 +33,7 @@
       "url": "https://www.cnipa.gov.cn/col/col53/index.html",
       "ok": true,
       "found": 37,
-      "processed": 1,
+      "processed": 0,
       "errors": [],
       "aiWarnings": [],
       "fallbackUsed": false
@@ -33,7 +43,7 @@
       "url": "https://ipc.court.gov.cn/zh-cn/index.html",
       "ok": true,
       "found": 22,
-      "processed": 1,
+      "processed": 0,
       "errors": [],
       "aiWarnings": [],
       "fallbackUsed": false
